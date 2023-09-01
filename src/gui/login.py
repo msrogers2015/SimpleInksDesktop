@@ -11,7 +11,7 @@ class Login:
         self.root = tk.Tk()
         self.root.geometry('400x300')
         self.root.title('SimpleInks MS')
-        self.commands = login_commands.LoginCommands()
+        self.commands = login_commands.LoginCommands(self.root)
         self.create_widgets()
         self.place_widgets()
         self.root.mainloop()
