@@ -9,7 +9,11 @@ class Login:
     def __init__(self):
         self.db = 'cims.db'
         self.root = tk.Tk()
-        self.root.geometry('400x300')
+        self.width = 400
+        self.height = 300
+        self.middle_width = int(self.root.winfo_screenwidth()/2 - self.width/2)
+        self.middle_height = int(self.root.winfo_screenheight()/2 - self.height/2)
+        self.root.geometry(f'{self.width}x{self.height}+{self.middle_width}+{self.middle_height}')
         self.root.title('SimpleInks MS')
         self.commands = login_commands.LoginCommands(self.root)
         self.create_widgets()
