@@ -6,31 +6,63 @@ class Login:
     title = ("Comic Sans MS", 20)
     label = ("Comic Sans MS", 16)
     button = ('Comic Sans MS', 12)
+
     def __init__(self):
+        '''Create data for login window'''
+        # Database name variable
         self.db = 'cims.db'
-        self.root = tk.Tk()
+        # Window size variables
         self.width = 400
         self.height = 300
-        self.middle_width = int(self.root.winfo_screenwidth()/2 - self.width/2)
-        self.middle_height = int(self.root.winfo_screenheight()/2 - self.height/2)
-        self.root.geometry(f'{self.width}x{self.height}+{self.middle_width}+{self.middle_height}')
-        self.root.title('SimpleInks MS')
-        self.commands = login_commands.LoginCommands(self.root)
-        self.create_widgets()
-        self.place_widgets()
-        self.root.mainloop()
 
     def create_widgets(self):
-        self.name = tk.Label(text='SimpleInks MS', font=Login.title)
-        self.user_label = tk.Label(text='Username', font=Login.label)
-        self.user_entry = tk.Entry(font=Login.label, justify='center')
-        self.pass_label = tk.Label(text='Password', font=Login.label)
-        self.pass_entry = tk.Entry(font=Login.label, justify='center', show='*')
-        self.login = tk.Button(text='Login', justify='center', font=Login.button, command=lambda:self.commands.login(self.user_entry.get(), self.pass_entry.get()))
-        self.forgot_password = tk.Button(text='Forgot Password', justify='center', font=Login.button, command=lambda:self.commands.forgot_password())
-        self.version = tk.Label(text='0.1.0a',font=Login.button)
+        '''Create window and widgets for login screen'''
+        # Create window
+        self.login_root = tk.Tk()
+        # Link functions for login window
+        self.commands = login_commands.LoginCommands(self.login_root)
+        # Create window location variables
+        self.x = int(self.login_root.winfo_screenwidth()/2 - self.width/2)
+        self.y = int(self.login_root.winfo_screenheight()/2 - self.height/2)
+        # Set up window geometery and location
+        self.login_root.geometry(f'{self.width}x{self.height}+{self.x}+{self.y}')
+        # Rename window
+        self.login_root.title('SimpleInks MS')
+        # Create window widgets
+        self.name = tk.Label(
+            self.login_root, text='SimpleInks MS', font=Login.title
+        )
+        self.user_label = tk.Label(
+            self.login_root, text='Username', font=Login.label
+        )
+        self.user_entry = tk.Entry(
+            self.login_root, font=Login.label, justify='center'
+        )
+        self.pass_label = tk.Label(
+            self.login_root, text='Password', font=Login.label
+        )
+        self.pass_entry = tk.Entry(
+            self.login_root, font=Login.label, justify='center', show='*'
+        )
+        self.login = tk.Button(
+            self.login_root, text='Login', justify='center', font=Login.button,
+            command=lambda:self.commands.login(
+                self.user_entry.get(), self.pass_entry.get()
+            )
+        )
+        self.forgot_password = tk.Button(
+            self.login_root, text='Forgot Password', justify='center',
+            font=Login.button, command=lambda:self.commands.forgot_password()
+        )
+        self.version = tk.Label(
+            self.login_root, text='0.1.0a',font=Login.button
+        )
+        # Run function to place widgets and start main loop to display window
+        self.place_widgets()
+        self.login_root.mainloop()
 
     def place_widgets(self):
+        '''Place widgets within frame'''
         self.name.place(x=0,y=15,width=400,height=35)
         self.user_label.place(x=0,y=60,width=400,height=25)
         self.user_entry.place(x=50,y=85,width=300,height=40)
@@ -40,8 +72,3 @@ class Login:
         self.forgot_password.place(x=215,y=215,width=135,height=30)
         self.version.place(x=0,y=275,width=75,height=25)
     
-if __name__ == "__main__":
-    app = Login()
-    app.create_widgets()
-    app.place_widgets()
-    app.root.mainloop()
