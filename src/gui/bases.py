@@ -14,13 +14,12 @@ class Bases:
         self.menu = menu
         # Hide menu window
         self.menu.withdraw()
+        # Craete window for base materials
         self.create_window()
         self.create_labels()
         self.create_entries()
         self.create_buttons()
-
         self.place_widgets()
-        self.base_root.mainloop()
 
     def create_window(self):
         """Create and configure window for bases."""
@@ -174,6 +173,14 @@ class Bases:
             self.base_root, text="Rename Base", justify="center",
             font=Bases.button
         )
+        self.print_btn = tk.Button(
+            self.base_root, text="Print Base", justify="center",
+            font=Bases.button
+        )
+        self.save_btn = tk.Button(
+            self.base_root, text="Save Base", justify="center",
+            font=Bases.button, state='disabled'
+        )
         self.first_record_btn = tk.Button(
             self.base_root, text="<<", justify="center", font=Bases.button
         )
@@ -186,6 +193,7 @@ class Bases:
         self.last_record_btn = tk.Button(
             self.base_root, text=">>", justify="center", font=Bases.button
         )
+        print(self.edit_btn)
 
     def place_widgets(self):
         """Place all widgets within the frame"""
@@ -229,11 +237,15 @@ class Bases:
         self.report_btn.place(x=605, y=325, width=175, height=35)
         self.usage_btn.place(x=420, y=370, width=175, height=35)
         self.rename_btn.place(x=605, y=370, width=175, height=35)
-        self.first_record_btn.place(x=420, y=415, width=80, height=35)
-        self.previous_record_btn.place(x=513, y=415, width=80, height=35)
-        self.next_record_btn.place(x=607, y=415, width=80, height=35)
-        self.last_record_btn.place(x=700, y=415, width=80, height=35)
+        self.print_btn.place(x=420, y=415, width=175, height=35)
+        self.save_btn.place(x=605, y=415, width=175, height=35)
+        self.first_record_btn.place(x=420, y=460, width=80, height=35)
+        self.previous_record_btn.place(x=513, y=460, width=80, height=35)
+        self.next_record_btn.place(x=607, y=460, width=80, height=35)
+        self.last_record_btn.place(x=700, y=460, width=80, height=35)
 
     def on_close(self):
+        '''How to handle window closure.'''
+        # Destroy base materials and show menu window. 
         self.base_root.destroy()
         self.menu.deiconify()
