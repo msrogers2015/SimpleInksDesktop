@@ -11,6 +11,7 @@ class Bases:
         self.width = 800
         self.height = 600
         self.menu = menu
+        # Hide menu window
         self.menu.withdraw()
         self.create_widgets()
 
@@ -20,7 +21,9 @@ class Bases:
         self.x = int(self.base_root.winfo_screenwidth()/2 - self.width/2)
         self.y = int(self.base_root.winfo_screenheight()/2 - self.height/2)
         self.base_root.geometry(f'{self.width}x{self.height}+{self.x}+{self.y}')
-        self.title = tk.Label(self.base_root, text='Base Materials', font=Bases.title)
+        self.title = tk.Label(
+            self.base_root, text='Base Materials', font=Bases.title
+        )
         self.place_widgets()
 
     def place_widgets(self):
