@@ -193,7 +193,6 @@ class Bases:
         self.last_record_btn = tk.Button(
             self.base_root, text=">>", justify="center", font=Bases.button
         )
-        print(self.edit_btn)
 
     def place_widgets(self):
         """Place all widgets within the frame"""
