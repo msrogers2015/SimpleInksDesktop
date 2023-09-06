@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 
 class Bases:
@@ -20,6 +21,7 @@ class Bases:
         self.create_entries()
         self.create_buttons()
         self.place_widgets()
+        self.voc_window()
 
     def create_window(self):
         """Create and configure window for bases."""
@@ -132,7 +134,7 @@ class Bases:
             self.base_root, font=Bases.button, state="disabled"
         )
         self.search_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.button, state="normal"
         )
         self.health_entry = tk.Entry(
             self.base_root, font=Bases.button, state="disabled"
@@ -194,6 +196,32 @@ class Bases:
             self.base_root, text=">>", justify="center", font=Bases.button
         )
 
+    def voc_window(self):
+            self.voc_frame = tk.Frame(self.base_root, bg='green')
+            # Place frame
+            self.voc_frame.place(x=390, y=115, width=400, height=150)
+            # Treww view
+            self.tree = ttk.Treeview(self.voc_frame)
+            # Define columns
+            self.tree['columns'] = ('Name','Amount')
+            # Format columns
+            self.tree.column('#0', width=50)
+            self.tree.column('Name', anchor='w', width=125, minwidth=125)
+            self.tree.column('Amount', anchor='w', width=225, minwidth=225)
+            # Crate headings or title labels
+            self.tree.heading('#0', text='', anchor="w")
+            self.tree.heading('Name', text='Name', anchor='w')
+            self.tree.heading('Amount', text='Amount', anchor='w')
+            # Add information
+            #for x in range(0, 15):
+            #    self.tree.insert(parent='', index='end',
+            #                    iid=x, text=str(x),
+            #                    values=(f'Test name {x}',f'Test compound {x}'))
+            
+
+            self.tree.pack()
+
+
     def place_widgets(self):
         """Place all widgets within the frame"""
         # Place labels
@@ -242,6 +270,7 @@ class Bases:
         self.previous_record_btn.place(x=513, y=460, width=80, height=35)
         self.next_record_btn.place(x=607, y=460, width=80, height=35)
         self.last_record_btn.place(x=700, y=460, width=80, height=35)
+
 
     def on_close(self):
         '''How to handle window closure.'''
