@@ -16,6 +16,9 @@ class BaseCommands:
         # Update buttons to utilize command codes.
         self.assign()
         self.user_assignments()
+        # Retrieve and populate first base
+        self.load_base()
+        self.populate_base(0)
         # Mainloop to display and update window.
         self.gui.base_root.mainloop()
 
@@ -121,3 +124,69 @@ class BaseCommands:
 
     def save_base(self):
         pass
+
+    def load_base(self):
+        '''Load a base from the database onto the screen.'''
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        sql = '''SELECT * from bases'''
+        self.data = cur.execute(sql).fetchall()
+        con.close()
+    
+    def populate_base(self, index):
+        base, alt, cost, health, flammable, reactive, ppe, warning, revision, \
+        notes, description, vendor, system, gal = self.data[index]
+        # Update Name
+        self.gui.base_entry.configure(state='normal')
+        self.gui.base_entry.insert(0, base)
+        self.gui.base_entry.configure(state='disable')
+        # Update alternative name
+        self.gui.alt_name_entry.configure(state='normal')
+        self.gui.alt_name_entry.insert(0, alt)
+        self.gui.alt_name_entry.configure(state='disable')
+        # Update description
+        self.gui.description_entry.configure(state='normal')
+        self.gui.description_entry.insert(0, description)
+        self.gui.description_entry.configure(state='disable')
+        # update cost
+        self.gui.cost_entry.configure(state='normal')
+        self.gui.cost_entry.insert(0, cost)
+        self.gui.cost_entry.configure(state='disable')
+        # Update note
+        self.gui.cost_entry.configure(state='normal')
+        self.gui.cost_entry.insert(0, cost)
+        self.gui.cost_entry.configure(state='disable')
+        # Update vendor
+        self.gui.vendor_entry.configure(state='normal')
+        self.gui.vendor_entry.insert(0, vendor)
+        self.gui.vendor_entry.configure(state='disable')
+        # Update lbs
+        self.gui.gal_lb_entry.configure(state='normal')
+        self.gui.gal_lb_entry.insert(0, gal)
+        self.gui.gal_lb_entry.configure(state='disable')
+        # Update inventory
+        self.gui.low_inventory_entry.configure(state='normal')
+        self.gui.low_inventory_entry.insert(0, warning)
+        self.gui.low_inventory_entry.configure(state='disable')
+        # Update ink system
+        self.gui.system_entry.configure(state='normal')
+        self.gui.system_entry.insert(0, system)
+        self.gui.system_entry.configure(state='disable')
+        # Update health
+        self.gui.health_entry.configure(state='normal')
+        self.gui.health_entry.insert(0, health)
+        self.gui.health_entry.configure(state='disable')
+        # Update flammability
+        self.gui.flammability_entry.configure(state='normal')
+        self.gui.flammability_entry.insert(0, flammable)
+        self.gui.flammability_entry.configure(state='disable')
+        # Update reactivity
+        self.gui.reactivity_entry.configure(state='normal')
+        self.gui.reactivity_entry.insert(0, reactive)
+        self.gui.reactivity_entry.configure(state='disable')
+        # Update PPE
+        self.gui.ppe_entry.configure(state='normal')
+        self.gui.ppe_entry.insert(0, ppe)
+        self.gui.ppe_entry.configure(state='disable')
+        # Update revision
+        self.gui.revision_version.configure(text=revision)
