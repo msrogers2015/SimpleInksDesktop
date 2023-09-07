@@ -221,7 +221,6 @@ class Bases:
 
             self.tree.pack()
 
-
     def place_widgets(self):
         """Place all widgets within the frame"""
         # Place labels

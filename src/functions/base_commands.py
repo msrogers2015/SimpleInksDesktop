@@ -134,6 +134,7 @@ class BaseCommands:
         con.close()
     
     def populate_base(self, index):
+        '''Update entries with base information.'''
         base, alt, cost, health, flammable, reactive, ppe, warning, revision, \
         notes, description, vendor, system, gal = self.data[index]
         # Update Name
