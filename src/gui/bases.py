@@ -6,6 +6,7 @@ class Bases:
     title = ("Comic Sans MS", 24)
     label = ("Comic Sans MS", 18)
     button = ("Comic Sans MS", 14)
+    data = ("Comic Sans MS", 12)
 
     def __init__(self, logged_user, menu):
         """Initialize base window"""
@@ -107,46 +108,46 @@ class Bases:
     def create_entries(self):
         """Create entry widgets"""
         self.base_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.alt_name_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.description_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.cost_entry = tk.Entry(self.base_root,
-                                   font=Bases.button, state="disabled"
+                                   font=Bases.data, state="disabled"
                                    )
         self.note_entry = tk.Entry(self.base_root,
-                                   font=Bases.button, state="disabled"
+                                   font=Bases.data, state="disabled"
                                    )
         self.vendor_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.gal_lb_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.low_inventory_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.system_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.search_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="normal"
+            self.base_root, font=Bases.data, state="normal"
         )
         self.health_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.flammability_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.reactivity_entry = tk.Entry(
-            self.base_root, font=Bases.button, state="disabled"
+            self.base_root, font=Bases.data, state="disabled"
         )
         self.ppe_entry = tk.Entry(self.base_root,
-                                  font=Bases.button, state="disabled"
+                                  font=Bases.data, state="disabled"
                                   )
 
     def create_buttons(self):
@@ -205,7 +206,7 @@ class Bases:
             # Define columns
             self.tree['columns'] = ('Name','Amount')
             # Format columns
-            self.tree.column('#0', width=50)
+            self.tree.column('#0', width=50, minwidth=50)
             self.tree.column('Name', anchor='w', width=125, minwidth=125)
             self.tree.column('Amount', anchor='w', width=225, minwidth=225)
             # Crate headings or title labels
