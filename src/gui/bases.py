@@ -104,6 +104,9 @@ class Bases:
         self.revision_version = tk.Label(
             self.base_root, text="00", font=Bases.button, anchor="w"
         )
+        self.index = tk.Label(
+            self.base_root, text='', font=Bases.button, justify='center'
+        )
 
     def create_entries(self):
         """Create entry widgets"""
@@ -242,6 +245,7 @@ class Bases:
         self.ppe.place(x=630, y=540, width=125, height=25)
         self.revision.place(x=570, y=570, width=125, height=25)
         self.revision_version.place(x=700, y=570, width=125, height=25)
+        self.index.place(x=660, y=460, width=120, height=35)
         # Place entry
         self.base_entry.place(x=10, y=65, width=340, height=25)
         self.alt_name_entry.place(x=10, y=125, width=340, height=30)
@@ -266,10 +270,10 @@ class Bases:
         self.rename_btn.place(x=605, y=370, width=175, height=35)
         self.print_btn.place(x=420, y=415, width=175, height=35)
         self.save_btn.place(x=605, y=415, width=175, height=35)
-        self.first_record_btn.place(x=420, y=460, width=80, height=35)
-        self.previous_record_btn.place(x=513, y=460, width=80, height=35)
-        self.next_record_btn.place(x=607, y=460, width=80, height=35)
-        self.last_record_btn.place(x=700, y=460, width=80, height=35)
+        self.first_record_btn.place(x=420, y=460, width=50, height=35)
+        self.previous_record_btn.place(x=480, y=460, width=50, height=35)
+        self.next_record_btn.place(x=540, y=460, width=50, height=35)
+        self.last_record_btn.place(x=600, y=460, width=50, height=35)
 
 
     def on_close(self):

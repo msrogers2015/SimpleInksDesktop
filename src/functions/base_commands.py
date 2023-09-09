@@ -45,6 +45,12 @@ class BaseCommands:
         '''Update buttons to assign commands for functionality.'''
         self.gui.edit_btn.config(command=lambda:self.edit_base())
         self.gui.save_btn.config(command=lambda:self.save_base())
+        self.gui.next_record_btn.config(command=lambda: self.next_record())
+        self.gui.previous_record_btn.config(
+            command=lambda:self.previous_record()
+        )
+        self.gui.last_record_btn.config(command=lambda: self.last_record())
+        self.gui.first_record_btn.config(command=lambda: self.first_record())
     
     def edit_base(self):
         '''Edit material being displayed via enabling entry boxes.'''
@@ -165,6 +171,8 @@ class BaseCommands:
     
     def populate_base(self, index):
         '''Update entries with base information.'''
+        total_records = len(self.data)
+        self.gui.index.config(text=f'{self.current_index+1}/{total_records}')
         base, alt, cost, health, flammable, reactive, ppe, warning, revision, \
         notes, description, vendor, system, gal = self.data[index]
         # Update Name
@@ -244,3 +252,29 @@ class BaseCommands:
             voc, amount = data
             self.gui.tree.insert(parent='', index='end', iid=index+1,
                                  text=str(index+1), values=(voc, amount))
+            
+    def next_record(self):
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        data = cur.execute('''SELECT * FROM bases''').fetchall()
+        con.close()
+        if self.current_index + 1 < len(data):
+            self.current_index += 1
+            self.populate_base(self.current_index)
+
+    def previous_record(self):
+        if self.current_index != 0:
+            self.current_index -= 1
+            self.populate_base(self.current_index)
+    
+    def last_record(self):
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        data = cur.execute('''SELECT * FROM bases''').fetchall()
+        con.close()
+        self.current_index = len(data)-1
+        self.populate_base(self.current_index)
+
+    def first_record(self):
+        self.current_index = 0
+        self.populate_base(self.current_index)
