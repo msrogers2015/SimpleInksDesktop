@@ -1,7 +1,6 @@
 import tkinter as tk
 from os import path, getcwd
 from gui import login, bases
-from functions import base_commands as bc
 
 
 class Menu:
@@ -37,7 +36,7 @@ class Menu:
             self.menu_root,
             text="Bases",
             font=Menu.button,
-            command=lambda: bc.BaseCommands(self.logged_user, self.menu_root),
+            command=lambda: bases.Bases(self.logged_user, self.menu_root),
         )
         self.formulas = tk.Button(
             self.menu_root, text="Formulas", font=Menu.button
