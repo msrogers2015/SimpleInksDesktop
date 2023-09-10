@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from functions import base_commands as bc
 
 
@@ -171,7 +171,7 @@ class Bases:
         )
         self.delete_btn = tk.Button(
             self.base_root, text="Delete Base", justify="center",
-            font=Bases.button
+            font=Bases.button, command=lambda: self.delete()
         )
         self.new_btn = tk.Button(
             self.base_root, text="New Base", justify="center",
@@ -287,12 +287,16 @@ class Bases:
     def on_close(self):
         '''How to handle window closure.'''
         # Destroy base materials and show menu window. 
+        self.bc.disconnect()
         self.base_root.destroy()
         self.menu.deiconify()
 
     def edit_bases(self):
         if self.edit_btn.cget('text') == 'Edit Base':
+            self.bc.connect()
             self.edit_btn.configure(text='Cancel')
+            self.delete_btn.configure(text='Delete VOC')
+            self.new_btn.configure(text='Add VOC')
             self.alt_name_entry.config(state='normal')
             self.description_entry.config(state='normal')
             self.cost_entry.config(state='normal')
@@ -309,8 +313,6 @@ class Bases:
             # Enable save button
             self.save_btn.config(state='normal')
             #Disable all other buttons
-            self.delete_btn.config(state='disabled')
-            self.new_btn.config(state='disabled')
             self.report_btn.config(state='disabled')
             self.usage_btn.config(state='disabled')
             self.rename_btn.config(state='disabled')
@@ -320,7 +322,10 @@ class Bases:
             self.next_record_btn.config(state='disabled')
             self.last_record_btn.config(state='disabled')
         else:
+            self.bc.disconnect()
             self.edit_btn.configure(text='Edit Base')
+            self.delete_btn.config(text='Delete Base')
+            self.new_btn.config(text='New Base')
             self.alt_name_entry.config(state='disabled')
             self.description_entry.config(state='disabled')
             self.cost_entry.config(state='disabled')
@@ -337,9 +342,6 @@ class Bases:
             # Enable save button
             self.save_btn.config(state='disabled')
             #Disable all other buttons
-            self.edit_btn.config(state='normal')
-            self.delete_btn.config(state='normal')
-            self.new_btn.config(state='normal')
             self.report_btn.config(state='normal')
             self.usage_btn.config(state='normal')
             self.rename_btn.config(state='normal')
@@ -460,23 +462,40 @@ class Bases:
         self.populate_base()
 
     def save_record(self):
-        values = [
-            self.alt_name_entry.get(),
-            self.cost_entry.get(),
-            self.health_entry.get(),
-            self.flammability_entry.get(),
-            self.reactivity_entry.get(),
-            self.ppe_entry.get(),
-            self.low_inventory_entry.get(),
-            int(self.revision_version.cget('text')) + 1,
-            self.note_entry.get(),
-            self.description_entry.get(),
-            self.vendor_entry.get(),
-            self.system_entry.get(),
-            self.gal_lb_entry.get(),
-            self.base_entry.get(),
-        ]
-        self.bc.save_base(values)
-        self.data = self.bc.load_bases()
-        self.populate_base()
-        self.edit_bases()
+        try:
+            values = [
+                self.alt_name_entry.get(),
+                self.cost_entry.get(),
+                self.health_entry.get(),
+                self.flammability_entry.get(),
+                self.reactivity_entry.get(),
+                self.ppe_entry.get(),
+                self.low_inventory_entry.get(),
+                int(self.revision_version.cget('text')) + 1,
+                self.note_entry.get(),
+                self.description_entry.get(),
+                self.vendor_entry.get(),
+                self.system_entry.get(),
+                self.gal_lb_entry.get(),
+                self.base_entry.get(),
+            ]
+            self.bc.save_base(values)
+            self.data = self.bc.load_bases()
+            self.populate_base()
+            self.edit_bases()
+        except ValueError:
+            messagebox.showerror(title='Value Error',
+                                 message='Please check all information.')
+
+    def delete(self):
+        if self.delete_btn.cget('text') == 'Delete Base':
+            pass
+        else:
+            selected_voc = self.tree.item(self.tree.focus())['values'][0]
+            status = self.bc.delete_voc(selected_voc, self.base_entry.get())
+            if status:
+                deleted_voc = self.tree.selection()[0]
+                self.tree.delete(deleted_voc)
+
+    def add(self):
+        pass

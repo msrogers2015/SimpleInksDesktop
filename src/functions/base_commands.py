@@ -11,15 +11,21 @@ class BaseCommands:
         self.database = "cims.db"
         self.logged_user = logged_user
 
+    def connect(self):
+        self.con = sqlite3.connect(self.database)
+        self.cur = self.con.cursor()
+
+    def disconnect(self):
+        self.con.close()
+
     def user_assignments(self):
         '''Enable and disable features based on user level.'''
-        con = sqlite3.connect(self.database)
-        cur = con.cursor()
+        self.connect()
         sql = '''SELECT user_level FROM users WHERE employee_id = ?'''
-        user_level = int(cur.execute(sql, (self.logged_user,)).fetchone()[0])
-        con.close()
+        user_level = int(self.cur.execute(sql, (self.logged_user,)).fetchone()[0])
+        self.disconnect()
         return user_level
-    
+
     def delete_base(self):
         pass
 
@@ -43,26 +49,28 @@ class BaseCommands:
         flammable=?, reactive=?, ppe=?, warning_level=?, revision_version=?,
         notes=?, description=?, vendor=?, system=?, gallon_lb=? 
         WHERE base_name =?'''
-        con = sqlite3.connect(self.database)
-        cur = con.cursor()
-        cur.execute(sql, values)
-        con.commit()
-        con.close()
+        self.cur.execute(sql, values)
+        self.con.commit()
 
     def load_bases(self):
+        self.connect()
         '''Load a base from the database onto the screen.'''
-        con = sqlite3.connect(self.database)
-        cur = con.cursor()
         sql = '''SELECT * from bases'''
-        self.data = cur.execute(sql).fetchall()
-        con.close()
+        self.data = self.cur.execute(sql).fetchall()
+        self.disconnect()
         return self.data
     
     def populate_voc(self, base):
-        con = sqlite3.connect(self.database)
-        cur = con.cursor()
+        self.connect()
         sql = '''SELECT voc, amount FROM base_voc WHERE base = ?'''
-        voc_list = cur.execute(sql, (base,)).fetchall()
-        con.close()
+        voc_list = self.cur.execute(sql, (base,)).fetchall()
+        self.disconnect()
         return voc_list
         
+    def delete_voc(self, voc, base):
+        try:
+            sql = '''DELETE FROM base_voc WHERE base=? AND voc=?'''
+            self.cur.execute(sql, (base, voc))
+            return True
+        except:
+            return False
