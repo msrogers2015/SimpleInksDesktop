@@ -1,11 +1,11 @@
 import tkinter as tk
 from os import path, getcwd
-from gui import login, bases
+from gui import login, bases, voc
 
 
 class Menu:
     title = ("Comic Sans MS", 24)
-    button = ("Comic Sans MS", 16)
+    button = ("Comic Sans MS", 14)
 
     def __init__(self, logged_user, window):
         """Initialize menu."""
@@ -13,8 +13,8 @@ class Menu:
         self.logged_user = logged_user
         # Destroy login window
         window.destroy()
-        self.width = 400
-        self.height = 600
+        self.width = 600
+        self.height = 500
 
     def create_widgets(self):
         """Create menu window."""
@@ -32,6 +32,11 @@ class Menu:
         self.title = tk.Label(
             self.menu_root, text="SimpleInks MS", font=Menu.title, anchor="nw"
         )
+        # Create Buttons
+        self.vocs = tk.Button(
+            self.menu_root, text="VOCs", font=Menu.button,
+            command=lambda: voc.VOCs(self.logged_user, self.menu_root)
+        )
         self.bases = tk.Button(
             self.menu_root,
             text="Bases",
@@ -41,29 +46,32 @@ class Menu:
         self.formulas = tk.Button(
             self.menu_root, text="Formulas", font=Menu.button
         )
+        # Row 2
         self.raw_inv = tk.Button(
             self.menu_root, text="Raw Inventory", font=Menu.button
         )
-        self.cut_inv = tk.Button(
-            self.menu_root, text="Cut Inventory", font=Menu.button
+        self.rework_inv = tk.Button(
+            self.menu_root, text="Rework Inventory", font=Menu.button
         )
         self.designs = tk.Button(
             self.menu_root, text="Designs", font=Menu.button
         )
+        # Row 3
         self.production = tk.Button(
             self.menu_root, text="Production", font=Menu.button
         )
-        self.vocs = tk.Button(
-            self.menu_root, text="VOCs", font=Menu.button
+        self.material_reciving = tk.Button(
+            self.menu_root, text="Material Reciving", font=Menu.button
         )
         self.reports = tk.Button(
             self.menu_root, text="Reports", font=Menu.button
         )
+
         self.settings = tk.Button(
             self.menu_root, text="Settings", font=Menu.button
         )
         self.user_info = tk.Button(
-            self.menu_root, text="User Info", font=Menu.button
+            self.menu_root, text="Users", font=Menu.button
         )
         self.log_out = tk.Button(
             self.menu_root,
@@ -75,18 +83,42 @@ class Menu:
 
     def place_widgets(self):
         """Place widgets in menu window."""
+        width_ = 170
+        height_ = 50
+        x1 = 22
+        y1 = 102
+        x_space = 192
+        y_space = 75
         self.title.place(x=20, y=15, width=300, height=50)
-        self.bases.place(x=25, y=102, width=163, height=50)
-        self.formulas.place(x=213, y=102, width=162, height=50)
-        self.raw_inv.place(x=25, y=173, width=163, height=50)
-        self.designs.place(x=213, y=173, width=162, height=50)
-        self.cut_inv.place(x=25, y=248, width=163, height=50)
-        self.production.place(x=213, y=248, width=162, height=50)
-        self.vocs.place(x=25, y=323, width=163, height=50)
-        self.reports.place(x=213, y=323, width=162, height=50)
-        self.settings.place(x=25, y=398, width=163, height=50)
-        self.user_info.place(x=213, y=398, width=162, height=50)
-        self.log_out.place(x=25, y=473, width=163, height=50)
+        # Row 1
+        self.vocs.place(
+            x=x1, y=y1, width=width_, height=height_)
+        self.bases.place(
+            x=x1+x_space, y=y1, width=width_, height=height_)
+        self.formulas.place(
+            x=x1+(x_space*2), y=y1, width=width_, height=height_)
+        # Row 2
+        self.raw_inv.place(
+            x=x1, y=y1 + y_space, width=width_, height=height_)
+        self.rework_inv.place(
+            x=x1 + x_space, y=y1 + y_space, width=width_, height=height_)
+        self.designs.place(
+            x=x1+(x_space*2), y=y1 + y_space, width=width_, height=height_)
+        # Row 3
+        self.production.place(
+            x=x1, y=y1+(y_space*2), width=width_, height=height_)
+        self.material_reciving.place(
+            x=x1+x_space, y=y1+(y_space*2), width=width_, height=height_)
+        self.reports.place(
+            x=x1+(x_space*2), y=y1+(y_space*2), width=width_, height=height_)
+        # Row 4
+        self.settings.place(
+            x=x1, y=y1+(y_space*3), width=width_, height=height_)
+        self.user_info.place(
+            x=x1+x_space, y=y1+(y_space*3), width=width_, height=height_)
+        self.log_out.place(
+            x=x1+(x_space*2), y=y1+(y_space*3), width=width_, height=height_)
+        
         self.menu_root.mainloop()
 
     def log_out_(self):
