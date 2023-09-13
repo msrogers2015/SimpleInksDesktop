@@ -353,17 +353,13 @@ class Bases:
 
     def user_level(self):
         level = self.bc.user_assignments()
+        if level <= 2:
+            self.edit_btn.config(state='disabled')
+            self.new_btn.config(state='disabled')
+            self.delete_btn.config(state='disabled')
+            self.rename_btn.config(state='disabled')
         if level == 1:
-            self.edit_btn.config(state='disabled')
-            self.new_btn.config(state='disabled')
-            self.delete_btn.config(state='disabled')
             self.usage_btn.config(state='disabled')
-            self.rename_btn.config(state='disabled')
-        if level == 2:
-            self.edit_btn.config(state='disabled')
-            self.new_btn.config(state='disabled')
-            self.delete_btn.config(state='disabled')
-            self.rename_btn.config(state='disabled')
 
     def populate_base(self):
         self.index.configure(text=f'{self.current_index+1}/{self.total_records}')
@@ -443,6 +439,7 @@ class Bases:
             voc, amount = data
             self.tree.insert(parent='', index='end', iid=index+1,
                                  text=str(index+1), values=(voc, amount))
+            
     def next_record(self):
         if self.current_index != self.total_records - 1:
             self.current_index += 1

@@ -17,13 +17,15 @@ class VOCs:
         self.current_index = 0
         # Create connection to functions
         self.vc = voc_commands.VocCommands(logged_user=logged_user)
-        self.vc.connect()
+        self.data = self.vc.load_bases()
         self.menu.withdraw()
         self.create_window()
         self.create_labels()
         self.create_entries()
         self.create_buttons()
         self.place_widget()
+        self.user_level()
+        self.populate_voc()
         self.voc_root.mainloop()
 
     def create_window(self):
@@ -41,13 +43,13 @@ class VOCs:
             self.voc_root, text='VOC Materials', font = VOCs.title
         )
         self.name = tk.Label(
-            self.voc_root, text='VOC Materials', font = VOCs.label
+            self.voc_root, text='VOC Name', font = VOCs.label
         )
         self.alt_name = tk.Label(
             self.voc_root, text='Alternative Name', font=VOCs.label
         )
-        self.description = tk.Label(
-            self.voc_root, text='Description', font=VOCs.label
+        self.formula = tk.Label(
+            self.voc_root, text='Formula', font=VOCs.label
         )
         self.notes = tk.Label(
             self.voc_root, text='Notes', font=VOCs.label
@@ -60,7 +62,7 @@ class VOCs:
         self.alt_name_entry = tk.Entry(
             self.voc_root, state='disabled', font= VOCs.data
         )
-        self.description_entry = tk.Entry(
+        self.formula_entry = tk.Entry(
             self.voc_root, state='disabled', font= VOCs.data
         )
         self.notes_entry = tk.Entry(
@@ -77,6 +79,7 @@ class VOCs:
         self.edit_btn = tk.Button(
             self.voc_root, text='Edit VOC', justify='center', font=VOCs.button
         )
+
         self.menu_btn = tk.Button(
             self.voc_root, text='Menu', justify='center', font=VOCs.button,
             command=lambda: self.on_close()
@@ -98,12 +101,12 @@ class VOCs:
         self.title.place(x=10, y=10, width=380, height=40)
         self.name.place(x=10, y=75, width=380, height=30)
         self.alt_name.place(x=10, y=145, width=380, height=30)
-        self.description.place(x=10, y=215, width=380, height=30)
+        self.formula.place(x=10, y=215, width=380, height=30)
         self.notes.place(x=10, y=315, width=380, height=30)
         # Place entries
         self.name_entry.place(x=10, y=105, width=380, height=30)
         self.alt_name_entry.place(x=10, y=175, width=380, height=30)
-        self.description_entry.place(x=10, y=245, width=380, height=60)
+        self.formula_entry.place(x=10, y=245, width=380, height=60)
         self.notes_entry.place(x=10, y=345, width=380, height=60)
         # Place buttons
         self.new_btn.place(x=40, y=425, width=150, height=40)
@@ -115,8 +118,48 @@ class VOCs:
         self.next_btn.place(x=207, y=525, width=70, height=40)
         self.last_btn.place(x=290, y=525, width=70, height=40)
 
-
     def on_close(self):
         self.vc.disconnect()
         self.voc_root.destroy()
         self.menu.deiconify()
+
+    def user_level(self):
+        level = self.vc.user_assignments()
+        if level <= 2:
+            self.edit_btn.config(state='disabled')
+            self.new_btn.config(state='disabled')
+            self.delete_btn.config(state='disabled')
+
+    def populate_voc(self):
+        name, alt_name, formula, notes = self.data[self.current_index]
+        self.name_entry.configure(state='normal')
+        self.name_entry.delete(0, 'end')
+        self.name_entry.insert(0, name)
+        self.name_entry.configure(state='disable')
+
+        self.alt_name_entry.configure(state='normal')
+        self.alt_name_entry.delete(0, 'end')
+        self.alt_name_entry.insert(0, alt_name)
+        self.alt_name_entry.configure(state='disable')
+
+        self.formula_entry.configure(state='normal')
+        self.formula_entry.delete(0, 'end')
+        self.formula_entry.insert(0, formula)
+        self.formula_entry.configure(state='disable')
+
+        self.notes_entry.configure(state='normal')
+        self.notes_entry.delete(0, 'end')
+        self.notes_entry.insert(0, notes)
+        self.notes_entry.configure(state='disable')
+
+    def first_record(self):
+        pass
+
+    def previous_record(self):
+        pass
+
+    def next_record(self):
+        pass
+
+    def last_record(self):
+        pass

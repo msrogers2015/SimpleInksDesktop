@@ -18,7 +18,14 @@ class VocCommands:
 
     def user_assignments(self):
         self.connect()
-        sql = '''SELECT user_level FROM users WHERE employee_di = ?'''
+        sql = '''SELECT user_level FROM users WHERE employee_id = ?'''
         user_level = int(self.cur.execute(sql, (self.logged_user,)).fetchone()[0])
         self.disconnect()
         return user_level
+    
+    def load_bases(self):
+        self.connect()
+        sql = '''SELECT * FROM vocs'''
+        self.data = self.cur.execute(sql).fetchall()
+        self.disconnect()
+        return self.data
