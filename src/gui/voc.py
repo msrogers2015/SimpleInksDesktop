@@ -79,7 +79,7 @@ class VOCs:
         )
         self.menu_btn = tk.Button(
             self.voc_root, text='Menu', justify='center', font=VOCs.button,
-            command=lambda: self.on_close
+            command=lambda: self.on_close()
         )
         self.first_btn = tk.Button(
             self.voc_root, text='<<', justify='center', font = VOCs.button
