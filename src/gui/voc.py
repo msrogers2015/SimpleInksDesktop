@@ -12,7 +12,7 @@ class VOCs:
     def __init__(self, logged_user, menu):
         self.logged_user = logged_user
         self.width = 400
-        self.height = 600
+        self.height = 615
         self.menu = menu
         self.current_index = 0
         # Create connection to functions
@@ -54,6 +54,9 @@ class VOCs:
         self.notes = tk.Label(
             self.voc_root, text='Notes', font=VOCs.label
         )
+        self.index = tk.Label(
+            self.voc_root, text='', font=VOCs.button, justify='center'
+        )
     
     def create_entries(self):
         self.name_entry = tk.Entry(
@@ -85,16 +88,20 @@ class VOCs:
             command=lambda: self.on_close()
         )
         self.first_btn = tk.Button(
-            self.voc_root, text='<<', justify='center', font = VOCs.button
+            self.voc_root, text='<<', justify='center', font = VOCs.button,
+            command=lambda: self.first_record()
         )
         self.previous_btn = tk.Button(
-            self.voc_root, text='<', justify='center', font = VOCs.button
+            self.voc_root, text='<', justify='center', font = VOCs.button,
+            command=lambda: self.previous_record()
         )
         self.next_btn = tk.Button(
-            self.voc_root, text='>', justify='center', font = VOCs.button
+            self.voc_root, text='>', justify='center', font = VOCs.button,
+            command = lambda:self.next_record()
         )
         self.last_btn = tk.Button(
-            self.voc_root, text='>>', justify='center', font = VOCs.button
+            self.voc_root, text='>>', justify='center', font = VOCs.button,
+            command=lambda: self.last_record()
         )
     
     def place_widget(self):
@@ -103,6 +110,7 @@ class VOCs:
         self.alt_name.place(x=10, y=145, width=380, height=30)
         self.formula.place(x=10, y=215, width=380, height=30)
         self.notes.place(x=10, y=315, width=380, height=30)
+        self.index.place(x=140, y=580, width=120, height=35)
         # Place entries
         self.name_entry.place(x=10, y=105, width=380, height=30)
         self.alt_name_entry.place(x=10, y=175, width=380, height=30)
@@ -152,14 +160,22 @@ class VOCs:
         self.notes_entry.insert(0, notes)
         self.notes_entry.configure(state='disable')
 
+        self.index.config(text=f'{self.current_index+1}/{len(self.data)}')
+
     def first_record(self):
-        pass
+        self.current_index = 0
+        self.populate_voc()
 
     def previous_record(self):
-        pass
+        if self.current_index > 0:
+            self.current_index -= 1
+            self.populate_voc()
 
     def next_record(self):
-        pass
+        if self.current_index != len(self.data) - 1:
+            self.current_index += 1
+            self.populate_voc()
 
     def last_record(self):
-        pass
+        self.current_index = len(self.data) - 1
+        self.populate_voc()
