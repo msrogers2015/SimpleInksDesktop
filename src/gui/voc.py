@@ -74,13 +74,15 @@ class VOCs:
         
     def create_buttons(self):
         self.new_btn = tk.Button(
-            self.voc_root, text='New VOC', justify='center', font = VOCs.button
+            self.voc_root, text='New VOC', justify='center',
+            font = VOCs.button
         )
         self.delete_btn = tk.Button(
             self.voc_root, text='Delete VOC', justify='center', font = VOCs.button
         )
         self.edit_btn = tk.Button(
-            self.voc_root, text='Edit VOC', justify='center', font=VOCs.button
+            self.voc_root, text='Edit VOC', justify='center',
+            font=VOCs.button, command=lambda:self.edit_voc()
         )
 
         self.menu_btn = tk.Button(
@@ -179,3 +181,27 @@ class VOCs:
     def last_record(self):
         self.current_index = len(self.data) - 1
         self.populate_voc()
+
+    def edit_voc(self):
+        if self.edit_btn.cget('text') == 'Edit VOC':
+            self.new_btn.config(state='disabled')
+            self.delete_btn.config(state='disabled')
+            self.menu_btn.config(state='disabled')
+
+            self.first_btn.config(state='disabled')
+            self.previous_btn.config(state='disabled')
+            self.next_btn.config(state='disabled')
+            self.last_btn.config(state='disabled')
+
+            self.edit_btn.config(text='Cancel')
+        else:
+            self.new_btn.config(state='normal')
+            self.delete_btn.config(state='normal')
+            self.menu_btn.config(state='normal')
+
+            self.first_btn.config(state='normal')
+            self.previous_btn.config(state='normal')
+            self.next_btn.config(state='normal')
+            self.last_btn.config(state='normal')
+
+            self.edit_btn.config(text='Edit VOC')
