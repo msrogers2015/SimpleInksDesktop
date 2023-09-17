@@ -23,9 +23,38 @@ class VocCommands:
         self.disconnect()
         return user_level
     
-    def load_bases(self):
+    def load_vocs(self):
         self.connect()
         sql = '''SELECT * FROM vocs'''
         self.data = self.cur.execute(sql).fetchall()
         self.disconnect()
         return self.data
+
+    def edit_record(self, data):
+        try:
+            self.connect()
+            sql = '''UPDATE vocs SET alt_name=?, formula=?,note=? WHERE voc=?'''
+            self.cur.execute(sql, data)
+            self.con.commit()
+            self.disconnect()
+            return [True, 0]
+        except Exception as e:
+            return [False, e]
+
+    def new_record(self, data):
+        try:
+            self.connect()
+            sql = '''INSERT INTO vocs VALUES(?,?,?,?)'''
+            self.cur.execute(sql, data)
+            self.con.commit()
+            self.disconnect()
+            return [True, 0]
+        except Exception as e:
+            return [False, e]
+    
+    def delete_record(self, voc):
+        self.connect()
+        sql = '''DELETE FROM vocs WHERE voc=?'''
+        self.cur.execute(sql, (voc,))
+        self.con.commit()
+        self.disconnect()
