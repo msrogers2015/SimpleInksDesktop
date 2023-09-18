@@ -4,10 +4,10 @@ from functions import voc_commands
 
 
 class VOCs:
-    title = ("Comic Sans MS", 24)
-    label = ("Comic Sans MS", 18)
-    button = ("Comic Sans MS", 14)
-    data = ("Comic Sans MS", 12)
+    title = ("Arial", 24)
+    label = ("Arial", 18)
+    button = ("Arial", 14)
+    data = ("Arial", 12)
 
     def __init__(self, logged_user, menu):
         self.logged_user = logged_user
@@ -30,83 +30,100 @@ class VOCs:
 
     def create_window(self):
         self.voc_root = tk.Tk()
-        self.voc_root.title('SimpleInks MS - VOCs')
+        self.voc_root.title("SimpleInks MS - VOCs")
         self.x = int(self.voc_root.winfo_screenwidth() / 2 - self.width / 2)
         self.y = int(self.voc_root.winfo_screenheight() / 2 - self.height / 2)
-        self.voc_root.geometry(
-            f'{self.width}x{self.height}+{self.x}+{self.y}'
-        )
-        self.voc_root.protocol('WM_DELETE_WINDOW', self.on_close)
+        self.voc_root.geometry(f"{self.width}x{self.height}+{self.x}+{self.y}")
+        self.voc_root.protocol("WM_DELETE_WINDOW", self.on_close)
 
     def create_labels(self):
-        self.title = tk.Label(
-            self.voc_root, text='VOC Materials', font = VOCs.title
+        self.title = ttk.Label(
+            self.voc_root,
+            text="VOC Materials",
+            font=VOCs.title,
+            anchor='center'
         )
-        self.name = tk.Label(
-            self.voc_root, text='VOC Name', font = VOCs.label
+        self.name = ttk.Label(
+            self.voc_root,
+            text="VOC Name",
+            font=VOCs.label,
+            anchor='center'
         )
-        self.alt_name = tk.Label(
-            self.voc_root, text='Alternative Name', font=VOCs.label
+        self.alt_name = ttk.Label(
+            self.voc_root,
+            text="Alternative Name",
+            font=VOCs.label,
+            anchor='center'
         )
-        self.formula = tk.Label(
-            self.voc_root, text='Formula', font=VOCs.label
+        self.formula = ttk.Label(
+            self.voc_root,
+            text="Formula",
+            font=VOCs.label,
+            anchor='center'
         )
-        self.notes = tk.Label(
-            self.voc_root, text='Notes', font=VOCs.label
+        self.notes = ttk.Label(
+            self.voc_root,
+            text="Notes",
+            font=VOCs.label,
+            anchor='center'
         )
-        self.index = tk.Label(
-            self.voc_root, text='', font=VOCs.button, justify='center'
-        )
-    
-    def create_entries(self):
-        self.name_entry = tk.Entry(
-            self.voc_root, state='disabled', font= VOCs.data
-        )
-        self.alt_name_entry = tk.Entry(
-            self.voc_root, state='disabled', font= VOCs.data
-        )
-        self.formula_entry = tk.Entry(
-            self.voc_root, state='disabled', font= VOCs.data
-        )
-        self.notes_entry = tk.Entry(
-            self.voc_root, state='disabled', font= VOCs.data
-        )
-        
-    def create_buttons(self):
-        self.new_btn = tk.Button(
-            self.voc_root, text='New VOC', justify='center',
-            font = VOCs.button, command = lambda: self.new()
-        )
-        self.delete_btn = tk.Button(
-            self.voc_root, text='Delete VOC', justify='center',
-            font = VOCs.button, command=lambda:self.delete()
-        )
-        self.edit_btn = tk.Button(
-            self.voc_root, text='Edit VOC', justify='center',
-            font=VOCs.button, command=lambda:self.edit_voc()
+        self.index = ttk.Label(
+            self.voc_root, text="", font=VOCs.button, anchor='center'
         )
 
-        self.menu_btn = tk.Button(
-            self.voc_root, text='Menu', justify='center', font=VOCs.button,
-            command=lambda: self.on_close()
+    def create_entries(self):
+        self.name_entry = ttk.Entry(
+            self.voc_root, state="disabled", font=VOCs.data)
+        self.alt_name_entry = ttk.Entry(
+            self.voc_root, state="disabled", font=VOCs.data)
+        self.formula_entry = ttk.Entry(
+            self.voc_root, state="disabled", font=VOCs.data)
+        self.notes_entry = ttk.Entry(
+            self.voc_root, state="disabled", font=VOCs.data)
+
+    def create_buttons(self):
+        self.new_btn = ttk.Button(
+            self.voc_root,
+            text="New VOC",
+            command=lambda: self.new(),
         )
-        self.first_btn = tk.Button(
-            self.voc_root, text='<<', justify='center', font = VOCs.button,
-            command=lambda: self.first_record()
+        self.delete_btn = ttk.Button(
+            self.voc_root,
+            text="Delete VOC",
+            command=lambda: self.delete(),
         )
-        self.previous_btn = tk.Button(
-            self.voc_root, text='<', justify='center', font = VOCs.button,
-            command=lambda: self.previous_record()
+        self.edit_btn = ttk.Button(
+            self.voc_root,
+            text="Edit VOC",
+            command=lambda: self.edit_voc(),
         )
-        self.next_btn = tk.Button(
-            self.voc_root, text='>', justify='center', font = VOCs.button,
-            command = lambda:self.next_record()
+
+        self.menu_btn = ttk.Button(
+            self.voc_root,
+            text="Menu",
+            command=lambda: self.on_close(),
         )
-        self.last_btn = tk.Button(
-            self.voc_root, text='>>', justify='center', font = VOCs.button,
-            command=lambda: self.last_record()
+        self.first_btn = ttk.Button(
+            self.voc_root,
+            text="<<",
+            command=lambda: self.first_record(),
         )
-    
+        self.previous_btn = ttk.Button(
+            self.voc_root,
+            text="<",
+            command=lambda: self.previous_record(),
+        )
+        self.next_btn = ttk.Button(
+            self.voc_root,
+            text=">",
+            command=lambda: self.next_record(),
+        )
+        self.last_btn = ttk.Button(
+            self.voc_root,
+            text=">>",
+            command=lambda: self.last_record(),
+        )
+
     def place_widget(self):
         self.title.place(x=10, y=10, width=380, height=40)
         self.name.place(x=10, y=75, width=380, height=30)
@@ -137,33 +154,33 @@ class VOCs:
     def user_level(self):
         level = self.vc.user_assignments()
         if level <= 2:
-            self.edit_btn.config(state='disabled')
-            self.new_btn.config(state='disabled')
-            self.delete_btn.config(state='disabled')
+            self.edit_btn.config(state="disabled")
+            self.new_btn.config(state="disabled")
+            self.delete_btn.config(state="disabled")
 
     def populate_voc(self):
         name, alt_name, formula, notes = self.data[self.current_index]
-        self.name_entry.configure(state='normal')
-        self.name_entry.delete(0, 'end')
+        self.name_entry.configure(state="normal")
+        self.name_entry.delete(0, "end")
         self.name_entry.insert(0, name)
-        self.name_entry.configure(state='disable')
+        self.name_entry.configure(state="disable")
 
-        self.alt_name_entry.configure(state='normal')
-        self.alt_name_entry.delete(0, 'end')
+        self.alt_name_entry.configure(state="normal")
+        self.alt_name_entry.delete(0, "end")
         self.alt_name_entry.insert(0, alt_name)
-        self.alt_name_entry.configure(state='disable')
+        self.alt_name_entry.configure(state="disable")
 
-        self.formula_entry.configure(state='normal')
-        self.formula_entry.delete(0, 'end')
+        self.formula_entry.configure(state="normal")
+        self.formula_entry.delete(0, "end")
         self.formula_entry.insert(0, formula)
-        self.formula_entry.configure(state='disable')
+        self.formula_entry.configure(state="disable")
 
-        self.notes_entry.configure(state='normal')
-        self.notes_entry.delete(0, 'end')
+        self.notes_entry.configure(state="normal")
+        self.notes_entry.delete(0, "end")
         self.notes_entry.insert(0, notes)
-        self.notes_entry.configure(state='disable')
+        self.notes_entry.configure(state="disable")
 
-        self.index.config(text=f'{self.current_index+1}/{len(self.data)}')
+        self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
 
     def first_record(self):
         self.current_index = 0
@@ -184,143 +201,138 @@ class VOCs:
         self.populate_voc()
 
     def edit_voc(self):
-        if self.edit_btn.cget('text') == 'Edit VOC':
-            self.new_btn.config(state='disabled')
-            self.menu_btn.config(state='disabled')
+        if self.edit_btn.cget("text") == "Edit VOC":
+            self.new_btn.config(state="disabled")
+            self.menu_btn.config(state="disabled")
 
-            self.first_btn.config(state='disabled')
-            self.previous_btn.config(state='disabled')
-            self.next_btn.config(state='disabled')
-            self.last_btn.config(state='disabled')
+            self.first_btn.config(state="disabled")
+            self.previous_btn.config(state="disabled")
+            self.next_btn.config(state="disabled")
+            self.last_btn.config(state="disabled")
 
-            self.name_entry.config(state='normal')
-            self.notes_entry.config(state='normal')
-            self.formula_entry.config(state='normal')
-            self.alt_name_entry.config(state='normal')
+            self.name_entry.config(state="normal")
+            self.notes_entry.config(state="normal")
+            self.formula_entry.config(state="normal")
+            self.alt_name_entry.config(state="normal")
 
-            self.edit_btn.config(text='Save')
-            self.delete_btn.config(text='Cancel')
+            self.edit_btn.config(text="Save")
+            self.delete_btn.config(text="Cancel")
         else:
             # Save edits
             data = [
                 self.alt_name_entry.get(),
                 self.formula_entry.get(),
                 self.notes_entry.get(),
-                self.name_entry.get()
+                self.name_entry.get(),
             ]
             status = self.vc.edit_record(data)
             if not status[0]:
                 self.save_failure(status[1])
 
-            self.new_btn.config(state='normal')
-            self.menu_btn.config(state='normal')
+            self.new_btn.config(state="normal")
+            self.menu_btn.config(state="normal")
 
-            self.first_btn.config(state='normal')
-            self.previous_btn.config(state='normal')
-            self.next_btn.config(state='normal')
-            self.last_btn.config(state='normal')
+            self.first_btn.config(state="normal")
+            self.previous_btn.config(state="normal")
+            self.next_btn.config(state="normal")
+            self.last_btn.config(state="normal")
 
-            self.name_entry.config(state='disabled')
-            self.notes_entry.config(state='disabled')
-            self.formula_entry.config(state='disabled')
-            self.alt_name_entry.config(state='disabled')
+            self.name_entry.config(state="disabled")
+            self.notes_entry.config(state="disabled")
+            self.formula_entry.config(state="disabled")
+            self.alt_name_entry.config(state="disabled")
 
-            self.edit_btn.config(text='Edit VOC')
-            self.delete_btn.config(text='Delete VOC')
+            self.edit_btn.config(text="Edit VOC")
+            self.delete_btn.config(text="Delete VOC")
             self.data = self.vc.load_vocs()
             self.populate_voc()
 
     def delete(self):
-        if self.delete_btn.cget('text') == 'Cancel':
-            self.new_btn.config(state='normal')
-            self.edit_btn.config(state='normal')
-            self.menu_btn.config(state='normal')
+        if self.delete_btn.cget("text") == "Cancel":
+            self.new_btn.config(state="normal")
+            self.edit_btn.config(state="normal")
+            self.menu_btn.config(state="normal")
 
-            self.first_btn.config(state='normal')
-            self.previous_btn.config(state='normal')
-            self.next_btn.config(state='normal')
-            self.last_btn.config(state='normal')
+            self.first_btn.config(state="normal")
+            self.previous_btn.config(state="normal")
+            self.next_btn.config(state="normal")
+            self.last_btn.config(state="normal")
 
-            self.name_entry.config(state='disabled')
-            self.notes_entry.config(state='disabled')
-            self.formula_entry.config(state='disabled')
-            self.alt_name_entry.config(state='disabled')
+            self.name_entry.config(state="disabled")
+            self.notes_entry.config(state="disabled")
+            self.formula_entry.config(state="disabled")
+            self.alt_name_entry.config(state="disabled")
 
-            self.edit_btn.config(text='Edit VOC')
-            self.delete_btn.config(text='Delete VOC')
-            self.new_btn.config(text='New VOC')
+            self.edit_btn.config(text="Edit VOC")
+            self.delete_btn.config(text="Delete VOC")
+            self.new_btn.config(text="New VOC")
 
-            self.index.config(
-                text=f'{self.current_index+1}/{len(self.data)}'
-            )
+            self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
+            self.populate_voc()
         else:
             status = messagebox.askyesno(
-                title='Delete Record',
-                message=f'Delete {self.name_entry.get()}?',
-
+                title="Delete Record",
+                message=f"Delete {self.name_entry.get()}?",
             )
             if status:
-                self.vc.delete_record(self.name_entry.get()) 
+                self.vc.delete_record(self.name_entry.get())
                 self.data = self.vc.load_vocs()
                 self.current_index -= 1
                 self.populate_voc()
 
     def new(self):
-        if self.new_btn.cget('text') == 'New VOC':
-            self.edit_btn.config(state='disabled')
-            self.menu_btn.config(state='disabled')
+        if self.new_btn.cget("text") == "New VOC":
+            self.edit_btn.config(state="disabled")
+            self.menu_btn.config(state="disabled")
 
-            self.first_btn.config(state='disabled')
-            self.previous_btn.config(state='disabled')
-            self.next_btn.config(state='disabled')
-            self.last_btn.config(state='disabled')
+            self.first_btn.config(state="disabled")
+            self.previous_btn.config(state="disabled")
+            self.next_btn.config(state="disabled")
+            self.last_btn.config(state="disabled")
 
-            self.name_entry.config(state='normal')
-            self.name_entry.delete(0, 'end')
-            self.notes_entry.config(state='normal')
-            self.notes_entry.delete(0, 'end')
-            self.formula_entry.config(state='normal')
-            self.formula_entry.delete(0, 'end')
-            self.alt_name_entry.config(state='normal')
-            self.alt_name_entry.delete(0, 'end')
+            self.name_entry.config(state="normal")
+            self.name_entry.delete(0, "end")
+            self.notes_entry.config(state="normal")
+            self.notes_entry.delete(0, "end")
+            self.formula_entry.config(state="normal")
+            self.formula_entry.delete(0, "end")
+            self.alt_name_entry.config(state="normal")
+            self.alt_name_entry.delete(0, "end")
 
-            self.new_btn.config(text='Save')
-            self.delete_btn.config(text='Cancel')
-            self.index.config(text=f'*{len(self.data)+1}/{len(self.data) +1}*')
+            self.new_btn.config(text="Save")
+            self.delete_btn.config(text="Cancel")
+            self.index.config(text=f"*{len(self.data)+1}/{len(self.data) +1}*")
         else:
-            data = [self.name_entry.get(),
-                    self.alt_name_entry.get(),
-                    self.formula_entry.get(),
-                    self.notes_entry.get()]
+            data = [
+                self.name_entry.get(),
+                self.alt_name_entry.get(),
+                self.formula_entry.get(),
+                self.notes_entry.get(),
+            ]
             # Save New record
             status = self.vc.new_record(data)
             if not status[0]:
                 self.save_failure(status[1])
-            self.edit_btn.config(state='normal')
-            self.menu_btn.config(state='normal')
+            self.edit_btn.config(state="normal")
+            self.menu_btn.config(state="normal")
 
-            self.first_btn.config(state='normal')
-            self.previous_btn.config(state='normal')
-            self.next_btn.config(state='normal')
-            self.last_btn.config(state='normal')
+            self.first_btn.config(state="normal")
+            self.previous_btn.config(state="normal")
+            self.next_btn.config(state="normal")
+            self.last_btn.config(state="normal")
 
-            self.name_entry.config(state='disabled')
-            self.notes_entry.config(state='disabled')
-            self.formula_entry.config(state='disabled')
-            self.alt_name_entry.config(state='disabled')
+            self.name_entry.config(state="disabled")
+            self.notes_entry.config(state="disabled")
+            self.formula_entry.config(state="disabled")
+            self.alt_name_entry.config(state="disabled")
 
-            self.new_btn.config(text='New VOC')
-            self.delete_btn.config(text='Delete VOC')
+            self.new_btn.config(text="New VOC")
+            self.delete_btn.config(text="Delete VOC")
             self.data = self.vc.load_vocs()
-            self.current_index = len(self.data)-1
+            self.current_index = len(self.data) - 1
             self.populate_voc()
 
-            self.index.config(
-                text=f'{self.current_index+1}/{len(self.data)}'
-            )
-    
+            self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
+
     def save_failure(self, error):
-        messagebox.showerror(
-            title='Save Failure',
-            message=error
-        )
+        messagebox.showerror(title="Save Failure", message=error)
