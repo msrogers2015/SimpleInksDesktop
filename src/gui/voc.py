@@ -10,20 +10,29 @@ class VOCs:
     data = ("Arial", 12)
 
     def __init__(self, logged_user, menu):
+        '''Creates window for vocs'''
+        # Create logged user variable for indexing
         self.logged_user = logged_user
+        # Window sizes
         self.width = 400
         self.height = 615
+        # Main menu window
         self.menu = menu
+        # Set current index to first record
         self.current_index = 0
         # Create connection to functions
         self.vc = voc_commands.VocCommands(logged_user=logged_user)
-        self.data = self.vc.load_vocs()
+        # Load first record information
+        self.data = self.vc.fetch_record(self.current_index)
+        # Hide main menu
         self.menu.withdraw()
+        # Create widgets
         self.create_window()
         self.create_labels()
         self.create_entries()
         self.create_buttons()
         self.place_widget()
+
         self.user_level()
         self.populate_voc()
         self.voc_root.mainloop()
@@ -159,7 +168,8 @@ class VOCs:
             self.delete_btn.config(state="disabled")
 
     def populate_voc(self):
-        name, alt_name, formula, notes = self.data[self.current_index]
+        name, alt_name, formula, notes = self.vc.fetch_record(self.current_index)
+        total_records = self.vc.count_records()
         self.name_entry.configure(state="normal")
         self.name_entry.delete(0, "end")
         self.name_entry.insert(0, name)
@@ -180,7 +190,7 @@ class VOCs:
         self.notes_entry.insert(0, notes)
         self.notes_entry.configure(state="disable")
 
-        self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
+        self.index.config(text=f"{self.current_index+1}/{total_records}")
 
     def first_record(self):
         self.current_index = 0
@@ -192,12 +202,12 @@ class VOCs:
             self.populate_voc()
 
     def next_record(self):
-        if self.current_index != len(self.data) - 1:
+        if self.current_index != self.vc.count_records() - 1:
             self.current_index += 1
             self.populate_voc()
 
     def last_record(self):
-        self.current_index = len(self.data) - 1
+        self.current_index = self.vc.count_records() - 1
         self.populate_voc()
 
     def edit_voc(self):
@@ -244,7 +254,7 @@ class VOCs:
 
             self.edit_btn.config(text="Edit VOC")
             self.delete_btn.config(text="Delete VOC")
-            self.data = self.vc.load_vocs()
+            self.data = self.vc.fetch_record(self.current_index)
             self.populate_voc()
 
     def delete(self):
@@ -267,7 +277,8 @@ class VOCs:
             self.delete_btn.config(text="Delete VOC")
             self.new_btn.config(text="New VOC")
 
-            self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
+            self.data = self.vc.count_records()
+            self.index.config(text=f"{self.current_index+1}/{self.data}")
             self.populate_voc()
         else:
             status = messagebox.askyesno(
@@ -276,7 +287,7 @@ class VOCs:
             )
             if status:
                 self.vc.delete_record(self.name_entry.get())
-                self.data = self.vc.load_vocs()
+                self.data = self.vc.fetch_record(self.current_index)
                 self.current_index -= 1
                 self.populate_voc()
 
@@ -301,7 +312,8 @@ class VOCs:
 
             self.new_btn.config(text="Save")
             self.delete_btn.config(text="Cancel")
-            self.index.config(text=f"*{len(self.data)+1}/{len(self.data) +1}*")
+            self.data = self.vc.count_records()
+            self.index.config(text=f"*{self.data + 1}/{self.data + 1}*")
         else:
             data = [
                 self.name_entry.get(),
@@ -328,11 +340,11 @@ class VOCs:
 
             self.new_btn.config(text="New VOC")
             self.delete_btn.config(text="Delete VOC")
-            self.data = self.vc.load_vocs()
-            self.current_index = len(self.data) - 1
+            self.data = self.vc.count_records()
+            self.current_index = self.data - 1
             self.populate_voc()
 
-            self.index.config(text=f"{self.current_index+1}/{len(self.data)}")
+            self.index.config(text=f"{self.current_index+1}/{self.data}")
 
     def save_failure(self, error):
         messagebox.showerror(title="Save Failure", message=error)

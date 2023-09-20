@@ -1,9 +1,5 @@
 import sqlite3
 
-# Level 1 is a visitor
-# Level 2 is a tech
-# Level 3 i
-
 
 class VocCommands:
     def __init__(self, logged_user):
@@ -16,6 +12,20 @@ class VocCommands:
 
     def disconnect(self):
         self.con.close()
+    
+    def count_records(self):
+        self.connect()
+        sql = 'SELECT COUNT(*) FROM vocs'
+        records = self.cur.execute(sql).fetchone()[0]
+        self.disconnect()
+        return records
+    
+    def fetch_record(self, index):
+        self.connect()
+        sql = 'SELECT * FROM vocs LIMIT 1 OFFSET ?'
+        record = self.cur.execute(sql, (index,)).fetchone()
+        self.disconnect()
+        return record
 
     def user_assignments(self):
         self.connect()
@@ -25,16 +35,9 @@ class VocCommands:
         self.disconnect()
         return user_level
 
-    def load_vocs(self):
-        self.connect()
-        sql = """SELECT * FROM vocs"""
-        self.data = self.cur.execute(sql).fetchall()
-        self.disconnect()
-        return self.data
-
     def edit_record(self, data):
+        self.connect()
         try:
-            self.connect()
             sql = """UPDATE vocs
             SET alt_name=?, formula=?,note=? WHERE voc=?"""
             self.cur.execute(sql, data)
@@ -42,17 +45,19 @@ class VocCommands:
             self.disconnect()
             return [True, 0]
         except Exception as e:
+            self.disconnect()
             return [False, e]
 
     def new_record(self, data):
+        self.connect()
         try:
-            self.connect()
             sql = """INSERT INTO vocs VALUES(?,?,?,?)"""
             self.cur.execute(sql, data)
             self.con.commit()
             self.disconnect()
             return [True, 0]
         except Exception as e:
+            self.disconnect()
             return [False, e]
 
     def delete_record(self, voc):
