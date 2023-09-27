@@ -1,0 +1,25 @@
+Testing database connection.
+No connection: Passed
+Connection: Passed
+
+Testing database closure.
+Not Closed: Passed
+Closure: Passed
+
+Count Records: Passed
+
+Testing record retrival.
+Fetch Results: 6/6 passed
+
+Testing user assignments.
+User Assignment Results: 4/4 passed
+
+Testing Record Editing.
+Record update passed
+
+Testing new record.
+New record added
+Passed with error:UNIQUE constraint failed: vocs.voc
+
+Testing record deletion.
+Successfully deleted record.

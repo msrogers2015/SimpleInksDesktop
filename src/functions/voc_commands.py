@@ -2,7 +2,7 @@ import sqlite3
 
 
 class VocCommands:
-    def __init__(self, logged_user):
+    def __init__(self, logged_user=None):
         self.database = "cims.db"
         self.logged_user = logged_user
 
@@ -21,11 +21,14 @@ class VocCommands:
         return records
     
     def fetch_record(self, index):
-        self.connect()
-        sql = 'SELECT * FROM vocs LIMIT 1 OFFSET ?'
-        record = self.cur.execute(sql, (index,)).fetchone()
-        self.disconnect()
-        return record
+        if 0 <= index <= self.count_records():
+            self.connect()
+            sql = 'SELECT * FROM vocs LIMIT 1 OFFSET ?'
+            record = self.cur.execute(sql, (index,)).fetchone()
+            self.disconnect()
+            return record
+        else:
+            return None
 
     def user_assignments(self):
         self.connect()
