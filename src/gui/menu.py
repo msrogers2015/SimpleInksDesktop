@@ -1,11 +1,12 @@
 import tkinter as tk
+from tkinter import ttk
 from os import path, getcwd
 from gui import login, bases, voc
 
 
 class Menu:
-    title = ("Comic Sans MS", 24)
-    button = ("Comic Sans MS", 14)
+    title = ("Arial", 24)
+    button = ("Arial", 14)
 
     def __init__(self, logged_user, window):
         """Initialize menu."""
@@ -29,54 +30,52 @@ class Menu:
             f"{self.width}x{self.height}+{self.x}+{self.y}"
         )
         # Create widgets for menu
-        self.title = tk.Label(
+        self.title = ttk.Label(
             self.menu_root, text="SimpleInks MS", font=Menu.title, anchor="nw"
         )
         # Create Buttons
-        self.vocs = tk.Button(
-            self.menu_root, text="VOCs", font=Menu.button,
+        self.vocs = ttk.Button(
+            self.menu_root, text="VOCs",
             command=lambda: voc.VOCs(self.logged_user, self.menu_root)
         )
-        self.bases = tk.Button(
+        self.bases = ttk.Button(
             self.menu_root,
             text="Bases",
-            font=Menu.button,
             command=lambda: bases.Bases(self.logged_user, self.menu_root),
         )
-        self.formulas = tk.Button(
-            self.menu_root, text="Formulas", font=Menu.button
+        self.formulas = ttk.Button(
+            self.menu_root, text="Formulas"
         )
         # Row 2
-        self.raw_inv = tk.Button(
-            self.menu_root, text="Raw Inventory", font=Menu.button
+        self.raw_inv = ttk.Button(
+            self.menu_root, text="Raw Inventory"
         )
-        self.rework_inv = tk.Button(
-            self.menu_root, text="Rework Inventory", font=Menu.button
+        self.rework_inv = ttk.Button(
+            self.menu_root, text="Rework Inventory"
         )
-        self.designs = tk.Button(
-            self.menu_root, text="Designs", font=Menu.button
+        self.designs = ttk.Button(
+            self.menu_root, text="Designs"
         )
         # Row 3
-        self.production = tk.Button(
-            self.menu_root, text="Production", font=Menu.button
+        self.production = ttk.Button(
+            self.menu_root, text="Production"
         )
-        self.material_reciving = tk.Button(
-            self.menu_root, text="Material Reciving", font=Menu.button
+        self.material_reciving = ttk.Button(
+            self.menu_root, text="Material Reciving"
         )
-        self.reports = tk.Button(
-            self.menu_root, text="Reports", font=Menu.button
+        self.reports = ttk.Button(
+            self.menu_root, text="Reports"
         )
 
-        self.settings = tk.Button(
-            self.menu_root, text="Settings", font=Menu.button
+        self.settings = ttk.Button(
+            self.menu_root, text="Settings"
         )
-        self.user_info = tk.Button(
-            self.menu_root, text="Users", font=Menu.button
+        self.user_info = ttk.Button(
+            self.menu_root, text="Users"
         )
-        self.log_out = tk.Button(
+        self.log_out = ttk.Button(
             self.menu_root,
             text="Logout",
-            font=Menu.button,
             command=lambda: self.log_out_(),
         )
         self.place_widgets()

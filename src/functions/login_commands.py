@@ -24,6 +24,7 @@ class LoginCommands:
         data = cur.execute(sql, (username,)).fetchone()
         # Close database connection
         con.close()
+        print(data)
         if data is None:
             # Display warning if missing information.
             messagebox.showwarning(
@@ -70,4 +71,5 @@ class LoginCommands:
         """Password hashing function for password protection."""
         hashing = hashlib.sha256()
         hashing.update(pword)
+        print(hashing.hexdigest())
         return hashing.hexdigest()

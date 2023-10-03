@@ -1,11 +1,12 @@
 import tkinter as tk
+from tkinter import ttk
 from functions import login_commands
 
 
 class Login:
-    title = ("Comic Sans MS", 20)
-    label = ("Comic Sans MS", 16)
-    button = ("Comic Sans MS", 12)
+    title = ("Arial", 20)
+    label = ("Arial", 16)
+    button = ("Arial", 12)
 
     def __init__(self):
         """Create data for login window"""
@@ -35,38 +36,34 @@ class Login:
         # Rename window
         self.login_root.title("SimpleInks MS")
         # Create window widgets
-        self.name = tk.Label(
-            self.login_root, text="SimpleInks MS", font=Login.title
+        self.name = ttk.Label(
+            self.login_root, text="SimpleInks MS", font=Login.title, anchor='center'
         )
-        self.user_label = tk.Label(
-            self.login_root, text="Username", font=Login.label
+        self.user_label = ttk.Label(
+            self.login_root, text="Username", font=Login.label, anchor='center'
         )
-        self.user_entry = tk.Entry(
+        self.user_entry = ttk.Entry(
             self.login_root, font=Login.label, justify="center"
         )
-        self.pass_label = tk.Label(
-            self.login_root, text="Password", font=Login.label
+        self.pass_label = ttk.Label(
+            self.login_root, text="Password", font=Login.label, anchor='center'
         )
-        self.pass_entry = tk.Entry(
+        self.pass_entry = ttk.Entry(
             self.login_root, font=Login.label, justify="center", show="*"
         )
-        self.login = tk.Button(
+        self.login = ttk.Button(
             self.login_root,
             text="Login",
-            justify="center",
-            font=Login.button,
             command=lambda: self.commands.login(
                 self.user_entry.get(), self.pass_entry.get()
             ),
         )
-        self.forgot_password = tk.Button(
+        self.forgot_password = ttk.Button(
             self.login_root,
             text="Forgot Password",
-            justify="center",
-            font=Login.button,
             command=lambda: self.commands.forgot_password(),
         )
-        self.version = tk.Label(
+        self.version = ttk.Label(
             self.login_root, text="0.1.0a", font=Login.button
         )
         # Run function to place widgets and start main loop to display window

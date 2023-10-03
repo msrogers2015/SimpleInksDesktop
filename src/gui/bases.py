@@ -4,10 +4,10 @@ from functions import base_commands as bc
 
 
 class Bases:
-    title = ("Comic Sans MS", 24)
-    label = ("Comic Sans MS", 18)
-    button = ("Comic Sans MS", 14)
-    data = ("Comic Sans MS", 12)
+    title = ("Arial", 24)
+    label = ("Arial", 18)
+    button = ("Arial", 14)
+    data = ("Arial", 12)
 
     def __init__(self, logged_user, menu):
         """Initialize base window"""
@@ -51,168 +51,163 @@ class Bases:
 
     def create_labels(self):
         """Create labels for base materials window"""
-        self.title = tk.Label(
+        self.title = ttk.Label(
             self.base_root, text="Base Materials",
             font=Bases.title, justify="center"
         )
-        self.name = tk.Label(
+        self.name = ttk.Label(
             self.base_root, text="Base Name",
             font=Bases.label, justify="center"
         )
-        self.alt_name = tk.Label(
+        self.alt_name = ttk.Label(
             self.base_root, text="Alternative Name",
             font=Bases.label, justify="center"
         )
-        self.description = tk.Label(
+        self.description = ttk.Label(
             self.base_root, text="Description",
             font=Bases.label, justify="center"
         )
-        self.cost = tk.Label(
+        self.cost = ttk.Label(
             self.base_root, text="Cost",
             font=Bases.label, justify="center"
         )
-        self.note = tk.Label(
+        self.note = ttk.Label(
             self.base_root, text="Quick Note",
             font=Bases.label, justify="center"
         )
-        self.vendor = tk.Label(
+        self.vendor = ttk.Label(
             self.base_root, text="Vendor",
             font=Bases.label, justify="center"
         )
-        self.gal_lb = tk.Label(
+        self.gal_lb = ttk.Label(
             self.base_root, text="Lbs. Per Gal",
             font=Bases.label, justify="center"
         )
-        self.low_inventory = tk.Label(
+        self.low_inventory = ttk.Label(
             self.base_root,
             text="Low Inventory Level",
             font=Bases.label,
             justify="center",
         )
-        self.system = tk.Label(
+        self.system = ttk.Label(
             self.base_root, text="Ink System",
             font=Bases.label, justify="center"
         )
-        self.search = tk.Label(
+        self.search = ttk.Label(
             self.base_root, text="Search", font=Bases.label, justify="center"
         )
-        self.health = tk.Label(
+        self.health = ttk.Label(
             self.base_root, text="Health", font=Bases.button, anchor="e"
         )
-        self.flammability = tk.Label(
+        self.flammability = ttk.Label(
             self.base_root, text="Flammability", font=Bases.button, anchor="e"
         )
-        self.reactivity = tk.Label(
+        self.reactivity = ttk.Label(
             self.base_root, text="Reactivity", font=Bases.button, anchor="e"
         )
-        self.ppe = tk.Label(self.base_root, text="PPE",
+        self.ppe = ttk.Label(self.base_root, text="PPE",
                             font=Bases.button, anchor="e"
                             )
-        self.revision = tk.Label(
+        self.revision = ttk.Label(
             self.base_root, text="Revision", font=Bases.button, anchor="e"
         )
-        self.revision_version = tk.Label(
+        self.revision_version = ttk.Label(
             self.base_root, text="00", font=Bases.button, anchor="w"
         )
-        self.index = tk.Label(
+        self.index = ttk.Label(
             self.base_root, text='', font=Bases.button, justify='center'
         )
 
     def create_entries(self):
         """Create entry widgets"""
-        self.base_entry = tk.Entry(
+        self.base_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.alt_name_entry = tk.Entry(
+        self.alt_name_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.description_entry = tk.Entry(
+        self.description_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.cost_entry = tk.Entry(self.base_root,
+        self.cost_entry = ttk.Entry(self.base_root,
                                    font=Bases.data, state="disabled"
                                    )
-        self.note_entry = tk.Entry(self.base_root,
+        self.note_entry = ttk.Entry(self.base_root,
                                    font=Bases.data, state="disabled"
                                    )
-        self.vendor_entry = tk.Entry(
+        self.vendor_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.gal_lb_entry = tk.Entry(
+        self.gal_lb_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.low_inventory_entry = tk.Entry(
+        self.low_inventory_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.system_entry = tk.Entry(
+        self.system_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.search_entry = tk.Entry(
+        self.search_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="normal"
         )
-        self.health_entry = tk.Entry(
+        self.health_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.flammability_entry = tk.Entry(
+        self.flammability_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.reactivity_entry = tk.Entry(
+        self.reactivity_entry = ttk.Entry(
             self.base_root, font=Bases.data, state="disabled"
         )
-        self.ppe_entry = tk.Entry(self.base_root,
+        self.ppe_entry = ttk.Entry(self.base_root,
                                   font=Bases.data, state="disabled"
                                   )
 
     def create_buttons(self):
         """Create button widgets"""
-        self.edit_btn = tk.Button(
-            self.base_root, text="Edit Base", justify="center",
-            font=Bases.button, command=lambda: self.edit_bases()
+        self.edit_btn = ttk.Button(
+            self.base_root, text="Edit Base",
+            command=lambda: self.edit_bases()
         )
-        self.delete_btn = tk.Button(
-            self.base_root, text="Delete Base", justify="center",
-            font=Bases.button, command=lambda: self.delete()
+        self.delete_btn = ttk.Button(
+            self.base_root, text="Delete Base",
+            command=lambda: self.delete()
         )
-        self.new_btn = tk.Button(
-            self.base_root, text="New Base", justify="center",
-            font=Bases.button
+        self.new_btn = ttk.Button(
+            self.base_root, text="New Base",
         )
-        self.report_btn = tk.Button(
-            self.base_root, text="Useage Report", justify="center",
-            font=Bases.button
+        self.report_btn = ttk.Button(
+            self.base_root, text="Useage Report",
         )
-        self.usage_btn = tk.Button(
-            self.base_root, text="Calculate Usage", justify="center",
-            font=Bases.button
+        self.usage_btn = ttk.Button(
+            self.base_root, text="Calculate Usage",
         )
-        self.rename_btn = tk.Button(
-            self.base_root, text="Rename Base", justify="center",
-            font=Bases.button
+        self.rename_btn = ttk.Button(
+            self.base_root, text="Rename Base",
         )
-        self.print_btn = tk.Button(
-            self.base_root, text="Print Base", justify="center",
-            font=Bases.button
+        self.print_btn = ttk.Button(
+            self.base_root, text="Print Base",
         )
-        self.save_btn = tk.Button(
-            self.base_root, text="Save Base", justify="center",
-            font=Bases.button, state='disabled',
+        self.save_btn = ttk.Button(
+            self.base_root, text="Save Base",
+            state='disabled',
             command=lambda: self.save_record()
         )
-        self.first_record_btn = tk.Button(
-            self.base_root, text="<<", justify="center",
-            font=Bases.button, command=lambda: self.first_record()
+        self.first_record_btn = ttk.Button(
+            self.base_root, text="<<",
+            command=lambda: self.first_record()
         )
-        self.previous_record_btn = tk.Button(
-            self.base_root, text="<", justify="center",
-            font=Bases.button, command=lambda: self.previous_record()
+        self.previous_record_btn = ttk.Button(
+            self.base_root, text="<",
+            command=lambda: self.previous_record()
         )
-        self.next_record_btn = tk.Button(
-            self.base_root, text=">", justify="center",
-            font=Bases.button, command=lambda: self.next_record()
+        self.next_record_btn = ttk.Button(
+            self.base_root, text=">",
+            command=lambda: self.next_record()
         )
-        self.last_record_btn = tk.Button(
-            self.base_root, text=">>", justify="center",
-            font=Bases.button, command=lambda: self.last_record()
+        self.last_record_btn = ttk.Button(
+            self.base_root, text=">>",
+            command=lambda: self.last_record()
         )
 
     def voc_window(self):
