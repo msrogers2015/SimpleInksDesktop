@@ -3,7 +3,8 @@ from gui import login
 
 class App:
     def __init__(self):
-        self.login_gui = login.Login()
+        database = 'cims.db'
+        self.login_gui = login.Login(database)
         self.login_gui.create_widgets()
 
 

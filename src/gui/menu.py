@@ -8,10 +8,11 @@ class Menu:
     title = ("Arial", 24)
     button = ("Arial", 14)
 
-    def __init__(self, logged_user, window):
+    def __init__(self, logged_user, window, database):
         """Initialize menu."""
         # Saved logged user
         self.logged_user = logged_user
+        self.database = database
         # Destroy login window
         window.destroy()
         self.width = 600
@@ -19,62 +20,62 @@ class Menu:
 
     def create_widgets(self):
         """Create menu window."""
-        self.menu_root = tk.Tk()
-        self.menu_root.title("SmipleInks MS - Menu")
+        self.root = tk.Tk()
+        self.root.title("SmipleInks MS - Menu")
         # Create variables for placing window and place and size window.
-        self.x = int(self.menu_root.winfo_screenwidth() / 2 - self.width / 2)
+        self.x = int(self.root.winfo_screenwidth() / 2 - self.width / 2)
         self.y = int(
-            self.menu_root.winfo_screenheight() / 2 - self.height / 2
+            self.root.winfo_screenheight() / 2 - self.height / 2
         )
-        self.menu_root.geometry(
+        self.root.geometry(
             f"{self.width}x{self.height}+{self.x}+{self.y}"
         )
         # Create widgets for menu
         self.title = ttk.Label(
-            self.menu_root, text="SimpleInks MS", font=Menu.title, anchor="nw"
+            self.root, text="SimpleInks MS", font=Menu.title, anchor="nw"
         )
         # Create Buttons
         self.vocs = ttk.Button(
-            self.menu_root, text="VOCs",
-            command=lambda: voc.VOCs(self.logged_user, self.menu_root)
+            self.root, text="VOCs",
+            command=lambda: voc.VOCs(self.logged_user, self.root, self.database)
         )
         self.bases = ttk.Button(
-            self.menu_root,
+            self.root,
             text="Bases",
-            command=lambda: bases.Bases(self.logged_user, self.menu_root),
+            command=lambda: bases.Bases(self.logged_user, self.root, self.database),
         )
         self.formulas = ttk.Button(
-            self.menu_root, text="Formulas"
+            self.root, text="Formulas"
         )
         # Row 2
         self.raw_inv = ttk.Button(
-            self.menu_root, text="Raw Inventory"
+            self.root, text="Raw Inventory"
         )
         self.rework_inv = ttk.Button(
-            self.menu_root, text="Rework Inventory"
+            self.root, text="Rework Inventory"
         )
         self.designs = ttk.Button(
-            self.menu_root, text="Designs"
+            self.root, text="Designs"
         )
         # Row 3
         self.production = ttk.Button(
-            self.menu_root, text="Production"
+            self.root, text="Production"
         )
         self.material_reciving = ttk.Button(
-            self.menu_root, text="Material Reciving"
+            self.root, text="Material Reciving"
         )
         self.reports = ttk.Button(
-            self.menu_root, text="Reports"
+            self.root, text="Reports"
         )
 
         self.settings = ttk.Button(
-            self.menu_root, text="Settings"
+            self.root, text="Settings"
         )
         self.user_info = ttk.Button(
-            self.menu_root, text="Users"
+            self.root, text="Users"
         )
         self.log_out = ttk.Button(
-            self.menu_root,
+            self.root,
             text="Logout",
             command=lambda: self.log_out_(),
         )
@@ -118,12 +119,12 @@ class Menu:
         self.log_out.place(
             x=x1+(x_space*2), y=y1+(y_space*3), width=width_, height=height_)
         
-        self.menu_root.mainloop()
+        self.root.mainloop()
 
     def log_out_(self):
         """Log out and display login window."""
         # Destroy menu window
-        self.menu_root.destroy()
+        self.root.destroy()
         # Create login window
-        self.login_gui = login.Login()
+        self.login_gui = login.Login(self.database)
         self.login_gui.create_widgets()

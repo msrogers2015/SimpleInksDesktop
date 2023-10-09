@@ -9,7 +9,7 @@ class VOCs:
     button = ("Arial", 14)
     data = ("Arial", 12)
 
-    def __init__(self, logged_user, menu):
+    def __init__(self, logged_user, menu, database):
         '''Creates window for vocs'''
         # Create logged user variable for indexing
         self.logged_user = logged_user
@@ -21,7 +21,7 @@ class VOCs:
         # Set current index to first record
         self.current_index = 0
         # Create connection to functions
-        self.vc = voc_commands.VocCommands(logged_user=logged_user)
+        self.vc = voc_commands.VocCommands(logged_user, database)
         # Load first record information
         self.data = self.vc.fetch_record(self.current_index)
         # Hide main menu

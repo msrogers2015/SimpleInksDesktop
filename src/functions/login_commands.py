@@ -5,10 +5,10 @@ from tkinter import messagebox
 
 
 class LoginCommands:
-    def __init__(self, login_window):
+    def __init__(self, login_window, database):
         """Iniital commands for login window"""
         self.window = login_window
-        self.database = "cims.db"
+        self.database = database
 
     def login(self, username, pword):
         """Check user data and display menu."""
@@ -24,7 +24,6 @@ class LoginCommands:
         data = cur.execute(sql, (username,)).fetchone()
         # Close database connection
         con.close()
-        print(data)
         if data is None:
             # Display warning if missing information.
             messagebox.showwarning(
@@ -35,7 +34,7 @@ class LoginCommands:
             if data[1] == hashed_pword:
                 # If password matches stored hash, display menu and destroy
                 # login window
-                self.menu = menu.Menu(username, self.window)
+                self.menu = menu.Menu(username, self.window, self.database)
                 self.menu.create_widgets()
             else:
                 # If password doesn't match, show error message
@@ -71,5 +70,4 @@ class LoginCommands:
         """Password hashing function for password protection."""
         hashing = hashlib.sha256()
         hashing.update(pword)
-        print(hashing.hexdigest())
         return hashing.hexdigest()

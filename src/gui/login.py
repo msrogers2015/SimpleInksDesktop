@@ -8,10 +8,10 @@ class Login:
     label = ("Arial", 16)
     button = ("Arial", 12)
 
-    def __init__(self):
+    def __init__(self, database):
         """Create data for login window"""
         # Database name variable
-        self.db = "cims.db"
+        self.db = database
         # Window size variables
         self.width = 400
         self.height = 300
@@ -21,7 +21,7 @@ class Login:
         # Create window
         self.login_root = tk.Tk()
         # Link functions for login window
-        self.commands = login_commands.LoginCommands(self.login_root)
+        self.commands = login_commands.LoginCommands(self.login_root, self.db)
         # Create window location variables
         self.x = int(
             self.login_root.winfo_screenwidth() / 2 - self.width / 2

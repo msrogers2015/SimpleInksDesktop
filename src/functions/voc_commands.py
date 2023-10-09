@@ -2,8 +2,8 @@ import sqlite3
 
 
 class VocCommands:
-    def __init__(self, logged_user=None):
-        self.database = "cims.db"
+    def __init__(self, logged_user, database):
+        self.database = database
         self.logged_user = logged_user
 
     def connect(self):
