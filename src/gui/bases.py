@@ -43,6 +43,7 @@ class Bases:
         self.root.geometry(f'{self.width}x{self.height}+{x}+{y}')
         # Handling the close button
         self.root.protocol('WM_DELETE_WINDOW', self.on_close)
+        self.root.bind('<Control-p>',self.print_vocs)
 
     def create_labels(self):
         """Create labels for base materials window"""
@@ -186,7 +187,7 @@ class Bases:
         self.save_btn = ttk.Button(
             self.root, text="Save Base",
             state='disabled',
-        #    command=lambda: self.save_record()
+            command=lambda: self.save()
         )
         self.first_record_btn = ttk.Button(
             self.root, text="<<",
@@ -500,12 +501,14 @@ class Bases:
                 self.base_entry.get(),
             ]
             if self.state == 'Edit':
-                self.commands.save_base(values)
+                vocs = [self.table.item(x)['values'] for x in self.table.get_children()]
+                self.commands.save_base(values, vocs)
                 self.state = None
             elif self.state == 'New':
-                self.commands.new_base(values)
-                self.index = len(self.commands.count_bases()) - 1
-                self.state = None
+                pass
+                #self.commands.new_base(values)
+                #self.index = len(self.commands.count_bases()) - 1
+                #self.state = None
             self.populate_base()
             self.edit_bases()
         except ValueError:
@@ -550,6 +553,14 @@ class Bases:
         self.new_btn.config(state='normal')
         print(voc, percent, index)
 
+    def print_vocs(self, event):
+        for voc in self.table.get_children():
+            print(self.table.item(voc)['values'])
+        print("Vocs")
+        voc_list = [self.table.item(x)['values'] for x in self.table.get_children()]
+        print(voc_list)
+
+
 class Voc:
     label = ('Arial', 12)
 
@@ -588,11 +599,12 @@ class Voc:
         self.amount_entry.grid(row=1, column=1)
         self.submit_btn.grid(row=2, column=0)
 
+
     def submit(self):
         try:
             if (self.voc_var.get() != '' and
                 self.amount_entry.get() != '' and
-                self.amount_entry.get().isdigit()):
+                float(self.amount_entry.get()) > 0):
                 self.add_voc(self.voc_var.get(), self.amount_entry.get(), self.index)
                 self.index += 1
             else:
@@ -605,10 +617,8 @@ class Voc:
                 title='Error Adding Voc',
                 message=e
             )
-    
+        
     def on_close(self):
         self.window.destroy()
-            
-
 
         

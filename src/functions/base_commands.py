@@ -59,16 +59,24 @@ class BaseCommands:
             print(e)
             return False
         
-    def save_base(self, values: list):
+    def save_base(self, values: list, vocs: list):
+        self.connect()
         sql = '''UPDATE bases SET alt_name=?, lb_cost=?, health=?,
         flammable=?, reactive=?, ppe=?, warning_level=?, revision_version=?,
         notes=?, description=?, vendor=?, system=?, gallon_lb=? 
         WHERE base_name =?'''
         self.cur.execute(sql, values)
+        sql = '''DELETE FROM base_voc WHERE base=?'''
+        self.cur.execute(sql, (values[-1],))
+        sql = '''INSERT INTO base_voc VALUES(?,?,?)'''
+        base = values[-1]
+        for voc, amount in vocs:
+            self.cur.execute(sql, (base, voc, amount))
         self.con.commit()
         self.disconnect()
 
     def new_base(self, values: list):
+        self.connect()
         sql = '''INSERT INTO bases (alt_name, lb_cost, health, flammable,
         reactive, ppe, warning_level, revision_version, notes, description,
         vendor, system, gallon_lb, base_name)
