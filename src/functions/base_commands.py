@@ -36,19 +36,26 @@ class BaseCommands:
         self.con.commit()
         self.disconnect()
 
+    def base_list(self) -> list:
+        self.connect()
+        sql = '''SELECT base_name FROM bases ORDER BY base_name ASC'''
+        bases = self.cur.execute(sql).fetchall()
+        self.disconnect()
+        return [x[0] for x in bases]
+
     def count_bases(self) -> int:
         self.connect()
         sql = '''SELECT COUNT(base_name) FROM bases'''
         count = self.cur.execute(sql).fetchone()[0]
         self.disconnect()
-        return count
+        return int(count)
     
     def get_base(self, index: int) -> list:
         self.connect()
-        sql = '''SELECT * FROM bases ORDER BY base_name ASC LIMIT 1 OFFSET ?'''
+        sql = '''SELECT * FROM bases LIMIT 1 OFFSET ?'''
         record = self.cur.execute(sql, (index,)).fetchone()
         self.disconnect()
-        return record
+        return record[1::]
     
     def delete_voc(self, base: str, voc: str) -> bool:
         try:
@@ -75,14 +82,23 @@ class BaseCommands:
         self.con.commit()
         self.disconnect()
 
-    def new_base(self, values: list):
+    def new_base(self, values: list, vocs: list):
         self.connect()
         sql = '''INSERT INTO bases (alt_name, lb_cost, health, flammable,
         reactive, ppe, warning_level, revision_version, notes, description,
         vendor, system, gallon_lb, base_name)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
         try:
-            self.cur.execute(sql, values)
+            if self.cur.execute(
+            'SELECT * from bases WHERE base_name=?',(values[-1],
+            )).fetchone() == None:
+                self.cur.execute(sql, values)
+                base = values[-1]
+                sql = 'INSERT INTO base_voc VALUES(?,?,?)'
+                for voc, amount in vocs:
+                    self.cur.execute(sql, (base, voc, amount))
+            else:
+                raise ValueError(f'{values[-1].title()} already exist in the database.')
         except Exception as e:
             messagebox.showerror(
                 title='Error saving',
@@ -108,3 +124,9 @@ class BaseCommands:
         voc_list = self.cur.execute('''SELECT voc FROM vocs''').fetchall()
         self.disconnect()
         return voc_list
+
+    def search_base(self, base: str) -> int:
+        sql = '''select pid from bases where base_name = ?'''
+        self.connect()
+        index = self.cur.execute(sql, (base,)).fetchone()[0]
+        return int(index)

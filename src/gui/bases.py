@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from ttkwidgets.autocomplete import AutocompleteCombobox
 from functions import base_commands
 
 
@@ -28,7 +29,11 @@ class Bases:
         self.create_table()
         self.populate_base()
         self.user_level()
+        self.bindings()
         self.root.mainloop()
+    
+    def bindings(self):
+        pass
 
     def create_window(self):
         '''Create and configure window for bases.'''
@@ -43,7 +48,6 @@ class Bases:
         self.root.geometry(f'{self.width}x{self.height}+{x}+{y}')
         # Handling the close button
         self.root.protocol('WM_DELETE_WINDOW', self.on_close)
-        self.root.bind('<Control-p>',self.print_vocs)
 
     def create_labels(self):
         """Create labels for base materials window"""
@@ -143,8 +147,12 @@ class Bases:
         self.system_entry = ttk.Entry(
             self.root, font=Bases.data, state="disabled"
         )
-        self.search_entry = ttk.Entry(
-            self.root, font=Bases.data, state="normal"
+        self.bases_list = self.commands.base_list()
+        self.search_entry = AutocompleteCombobox(
+            self.root,
+            font=Bases.data,
+            state="normal",
+            completevalues=self.bases_list
         )
         self.health_entry = ttk.Entry(
             self.root, font=Bases.data, state="disabled"
@@ -205,6 +213,9 @@ class Bases:
             self.root, text=">>",
             command=lambda: self.last_record()
         )
+        self.search_btn = ttk.Button(
+            self.root, text="Search", command=self.search_record
+        )
 
     def place_widgets(self):
         """Place all widgets within the frame"""
@@ -237,12 +248,13 @@ class Bases:
         self.gal_lb_entry.place(x=10, y=450, width=340, height=30)
         self.low_inventory_entry.place(x=10, y=510, width=340, height=30)
         self.system_entry.place(x=10, y=570, width=340, height=30)
-        self.search_entry.place(x=400, y=65, width=390, height=30)
+        self.search_entry.place(x=400, y=65, width=325, height=30)
         self.health_entry.place(x=595, y=510, width=35, height=25)
         self.flammability_entry.place(x=760, y=510, width=35, height=25)
         self.reactivity_entry.place(x=595, y=540, width=35, height=25)
         self.ppe_entry.place(x=760, y=540, width=35, height=25)
         # Place Buttons
+        self.search_btn.place(x=730, y=65, width=60, height=30)
         self.edit_btn.place(x=420, y=280, width=175, height=35)
         self.delete_btn.place(x=605, y=280, width=175, height=35)
         self.new_btn.place(x=420, y=325, width=175, height=35)
@@ -359,7 +371,7 @@ class Bases:
     
     def populate_base(self):
         self.index.config(
-            text=f'{self.current_index +1}/{self.commands.count_bases()}'
+            text=f'{self.current_index + 1}/{str(self.commands.count_bases())}'
         )
         record = self.commands.get_base(self.current_index)
         # Update Name
@@ -505,10 +517,10 @@ class Bases:
                 self.commands.save_base(values, vocs)
                 self.state = None
             elif self.state == 'New':
-                pass
-                #self.commands.new_base(values)
-                #self.index = len(self.commands.count_bases()) - 1
-                #self.state = None
+                vocs = [self.table.item(x)['values'] for x in self.table.get_children()]
+                self.commands.new_base(values, vocs)
+                self.state = None
+                self.current_index = self.commands.count_bases() - 1
             self.populate_base()
             self.edit_bases()
         except ValueError:
@@ -519,12 +531,12 @@ class Bases:
 
     def new_record(self):
         if self.new_btn.cget('text') == 'New Base':
-            self.state = 'New'
             self.edit_bases()
+            self.state = 'New'
             self.base_entry.config(state='normal')
             index = int(self.commands.count_bases()) + 1
             self.index.config(text=f'*{index}/{index}*')
-            self.revision_version.config(text='1')
+            self.revision_version.config(text='0')
             self.base_entry.delete(0, 'end')
             self.alt_name_entry.delete(0, 'end')
             self.description_entry.delete(0, 'end')
@@ -553,12 +565,10 @@ class Bases:
         self.new_btn.config(state='normal')
         print(voc, percent, index)
 
-    def print_vocs(self, event):
-        for voc in self.table.get_children():
-            print(self.table.item(voc)['values'])
-        print("Vocs")
-        voc_list = [self.table.item(x)['values'] for x in self.table.get_children()]
-        print(voc_list)
+    def search_record(self):
+        base = self.search_entry.get()
+        self.current_index = self.commands.search_base(base) - 1
+        self.populate_base()
 
 
 class Voc:
