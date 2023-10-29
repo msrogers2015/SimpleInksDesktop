@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from ttkwidgets.autocomplete import AutocompleteCombobox
 from functions import base_commands
+from reports import base
 
 
 class Bases:
@@ -13,6 +14,7 @@ class Bases:
     def __init__(self, logged_user, menu, database):
         '''Initialze Base Window.'''
         self.logged_user = logged_user
+        self.database = database
         self.menu = menu
         self.state = None
         self.commands = base_commands.BaseCommands(logged_user, database)
@@ -191,6 +193,7 @@ class Bases:
         )
         self.print_btn = ttk.Button(
             self.root, text="Print Base",
+            command= lambda: base.Report(self.database, self.base_entry.get())
         )
         self.save_btn = ttk.Button(
             self.root, text="Save Base",
